@@ -66,21 +66,19 @@ def UserForGenre( genero : str ):
     try:
         # Valido que sea un str
         if not isinstance(genero, str):
-            raise ValueError({"Error" :"El tipo de dato debe ser un string."})
+            raise TypeError({"Error" :"El tipo de dato debe ser un string."})
+        
         # Utilizo .capitalize() para validar el genero con la primera letra mayúscula
         genero = genero.capitalize()
         # Filtro por genero
         aux = func_2[func_2[genero] == 1]
-        # Selcciono las columnas que voy a utilizar 
-        aux = func_2[['user_id','release_date', 'playtime_forever']]
         # Obtengo el user_id con mas horas de juego
-        user = aux.groupby(['user_id'])['playtime_forever'].sum()
-        rank = user.sort_values(ascending=False)
-        user_top =  rank.index[0]
+        user = aux.groupby(['user_id'])['playtime_forever'].sum().sort_values(ascending=False)
+        user_top =  user.index[0]
         # Filtro por usuario
         user_filter = aux[aux['user_id'] == user_top]
         # Agrupo por año y sumo las horas
-        playtime_year = user_filter.groupby(user_filter['release_date'].dt.year)['playtime_forever'].sum()
+        playtime_year = user_filter.groupby(user_filter['release_date_x'])['playtime_forever'].sum()
         # Armo la lista con los dicc con año y hs
         playtime_total = []
         for year, playitme in playtime_year.items():
@@ -88,7 +86,7 @@ def UserForGenre( genero : str ):
         
         return {"Usuario con más horas jugadas para Género X" : user_top,
                  "Horas jugadas":playtime_total}
-    except ValueError as e:
+    except TypeError as e:
         return str(e)
 
 # ENDPOINT 3
