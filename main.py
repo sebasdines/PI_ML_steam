@@ -38,12 +38,10 @@ def PlayTimeGenre( genero : str ):
             raise ValueError({"Error" :"El tipo de dato debe ser un string."})
         # Utilizo .capitalize() para validar el genero con la primera letra mayúscula
         genero = genero.capitalize()
-        # Selecciono las columnas que voy a utilizar
-        aux = func_1[['release_date', 'playtime_forever', genero]]
         # Filtro por el genero
         aux = aux[aux[genero] == 1]
         # Agrupo por año sumo las horas de juego
-        aux = aux.groupby(aux['release_date'].dt.year)
+        aux = aux.groupby(aux['release_date'])
         # Ordeno de mayor a menor por horas de juego
         suma = aux['playtime_forever'].sum()
         # Ordeno de mayor a menor por horas de juego
