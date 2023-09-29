@@ -69,10 +69,10 @@ def UserForGenre( genero : str ):
             raise ValueError({"Error" :"El tipo de dato debe ser un string."})
         # Utilizo .capitalize() para validar el genero con la primera letra mayúscula
         genero = genero.capitalize()
-        # Selcciono las columnas que voy a utilizar 
-        aux = func_2[['user_id','release_date', 'playtime_forever', genero]]
         # Filtro por genero
-        aux = aux[aux[genero] == 1]
+        aux = func_2[func_2[genero] == 1]
+        # Selcciono las columnas que voy a utilizar 
+        aux = func_2[['user_id','release_date', 'playtime_forever']]
         # Obtengo el user_id con mas horas de juego
         user = aux.groupby(['user_id'])['playtime_forever'].sum()
         rank = user.sort_values(ascending=False)
