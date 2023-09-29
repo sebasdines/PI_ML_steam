@@ -95,109 +95,64 @@ def UserForGenre( genero : str ):
 # Ejemplo de retorno: [{"Puesto 1" : X}, {"Puesto 2" : Y},{"Puesto 3" : Z}]
 @app.get('/UsersRecommend/{anio}', tags=['Top 3 de juegos mas recomendados por usuarios, según el año ingresado '])
 def UsersRecommend( anio : int ):
-    try:
-        # Valido que el año sea un int
-        if not isinstance(anio, int):
-            raise ValueError({'Error' : "El tipo de dato debe ser un entero (YYYY)."})
-        func_3 = pd.read_parquet('func_3.parquet')
-        # Creo una lista con los años
-        lista_años = list(func_3['release_date'].unique())
-        # Valido que el año se encuentre en la lista
-        if anio not in lista_años:
-            raise ValueError({"No existe informaciòn del año ": anio})
-        # Filtro por año
-        func_3 = func_3[func_3['release_date'] == anio]
-        # Agrupo por juego y sumo sentimientos    
-        games_group = func_3.groupby(['title'])['sentiment_analysis'].sum()
-        # Ordeno de mayor a menor
-        rank = games_group.sort_values(ascending=False)    
-        # Top 3
-        top_3 = rank.head(3)    
-        final = []
-        i = 1
-        for title, j in top_3.items():
-            dic = {}
-            dic[f'Puesto {i}'] = title
-            final.append(dic)
-            i += 1
-        return final   
-            
-    except ValueError as e:
-        return str(e)
+    func_3 = pd.read_parquet('func_3.parquet')
+    # Filtro por año
+    func_3 = func_3[func_3['release_date'] == anio]
+    # Agrupo por juego y sumo sentimientos    
+    games_group = func_3.groupby(['title'])['sentiment_analysis'].sum()
+    # Ordeno de mayor a menor
+    rank = games_group.sort_values(ascending=False)    
+    # Top 3
+    top_3 = rank.head(3)    
+    response = []
+    i = 1
+    for title, j in top_3.items():
+        dic = {}
+        dic[f'Puesto {i}'] = title
+        response.append(dic)
+        i += 1
+    return response   
+         
+    
 
 # ENDPOINT 4
 # Devuelve el top 3 de juegos MENOS recomendados por usuarios para el año dado. (reviews.recommend = False y comentarios negativos)
 # Ejemplo de retorno: [{"Puesto 1" : X}, {"Puesto 2" : Y},{"Puesto 3" : Z}]
 @app.get('/UsersNotRecommend/{anio}', tags=['Top 3 NO recomendados por usuario, según el año ingresado'])
 def UsersNotRecommend( anio : int ):
-    try:
-        # Valido que el año sea un entero
-        if not isinstance(anio, int):
-            raise ValueError({'Error' : "El tipo de dato debe ser un entero (YYYY)."})
-        func_4 = pd.read_parquet('func_4.parquet')
-        # Creo una lista con los años
-        lista_años = list(func_4['release_date'].unique())
-        # Valido que el año se encuentre en la lista
-        if anio not in lista_años:
-            raise ValueError({"No existe informacion del año ": anio})
-        # Filtro por año
-        func_4 = func_4[func_4['release_date'] == anio]
-        # Agrupo por juego y sumo sentimientos    
-        games_group = func_4.groupby(['title'])['sentiment_analysis'].sum()
-        # Ordeno de mayor a menor
-        rank = games_group.sort_values()    
-        # Top 3
-        top_3 = rank.head(3)    
-        final = []
-        i = 1
-        for title, j in top_3.items():
-            dic = {}
-            dic[f'Puesto {i}'] = title
-            final.append(dic)
-            i += 1
-        return final  
+    func_4 = pd.read_parquet('func_4.parquet')
+    # Filtro por año
+    func_4 = func_4[func_4['release_date'] == anio]
+    # Agrupo por juego y sumo sentimientos    
+    games_group = func_4.groupby(['title'])['sentiment_analysis'].sum()
+    # Ordeno de mayor a menor
+    rank = games_group.sort_values()    
+    # Top 3
+    top_3 = rank.head(3)    
+    response = []
+    i = 1
+    for title, j in top_3.items():
+        dic = {}
+        dic[f'Puesto {i}'] = title
+        response.append(dic)
+        i += 1
+    return response  
             
-    except ValueError as e:
-        return str(e)
+    
     
 # ENDPOINT 5
 # Según el año de lanzamiento, se devuelve una lista con la cantidad de registros de reseñas de usuarios que se encuentren categorizados con un análisis de sentimiento.
 # Ejemplo de retorno: {Negative = 182, Neutral = 120, Positive = 278}
 @app.get('/sentiment_analysis/{anio}', tags=['Análisis de sentimento por año'])
 def sentiment_analysis( anio : int ): 
-    try:
-        # Valido que sea un int
-        if not isinstance(anio, int):
-            raise ValueError({"Error" :"El tipo de dato debe ser un entero (YYYY)."})
-        # Creo una lista con los años
-        lista_años = list(func_5['release_date'].unique())
-        # Valido que el año se encuentre en la lista
-        if anio not in lista_años:
-            raise ValueError({"No existe informacion del año ": anio}) 
-        # Filtro el df por el año ingresado
-        filtro = func_5[func_5['release_date'] == anio]
-        # Traigo las columnas que necesito
-        columns_rev = filtro[['release_date', 'sentiment_analysis']]
-        # Itero la columna sentiment_analysis y cuento cuantas reseñas hay de cada tipo
-        dicc = columns_rev['sentiment_analysis'].to_dict()
-        tot_reviews = len(dicc)
-        positivo = 0
-        neutro = 0 
-        negativo = 0
-        for key, value in dicc.items():
-            if value == 2:
-                positivo += 1
-            if value == 1:
-                neutro += 1
-            if value == 0:
-                negativo += 1
-                
-        return [{f'Negativo: ':round((negativo/tot_reviews*100),2),
-                'Neutral: ':round((neutro/tot_reviews*100),2),
-                'Positivo: ':round((positivo/tot_reviews*100),2)}]   
-    except ValueError as e:
-        return str(e)  
-
+    func_5 = pd.read_parquet('func_5.parquet')
+    # Filtro el df por el año ingresado
+    aux = func_5[func_5['anio'] == anio]
+    
+    return {'Año' : anio,'Positivo: ': aux.positivo.to_list()[0],
+            'Neutral: ': aux.neutral.to_list()[0],
+            'Negativo: ': aux.negativo.to_list()[0]}   
+    
 # ENDPOINT 6
 # Ingresando el id de producto, deberíamos recibir una lista con 5 juegos recomendados similares al ingresado.   
 @app.get('/recomendacion_juego/{id_item}', tags=['Modelo de recomendación item-item'])
