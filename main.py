@@ -65,25 +65,20 @@ def UserForGenre( genero : str ):
         # Valido que sea un str
         if not isinstance(genero, str):
             raise TypeError({"Error" :"El tipo de dato debe ser un string."})
-        
         # Utilizo .capitalize() para validar el genero con la primera letra mayúscula
         genero = genero.capitalize()
         # Filtro por genero
-        aux = func_2[func_2[genero] == 1]
-        # Obtengo el user_id con mas horas de juego
-        user = aux.groupby(['user_id'])['playtime_forever'].sum().sort_values(ascending=False)
-        user_top =  user.index[0]
-        # Filtro por usuario
-        user_filter = aux[aux['user_id'] == user_top]
-        # Agrupo por año y sumo las horas
-        playtime_year = user_filter.groupby(user_filter['release_date_x'])['playtime_forever'].sum()
-        # Armo la lista con los dicc con año y hs
-        playtime_total = []
-        for year, playitme in playtime_year.items():
-            playtime_total.append({'Año' : year, 'Horas' : round(playitme / 60)})
+        aux = func_2[func_2['genero'] == genero]
+        # Obtengo el user_id 
+        user = aux['user_id'][0]
+        # Relleno un lista con diccionarios que contienen Año y hs de juego              
+        lista = []
+        for _, row in aux.iterrows():
+            dict = {}
+            dict[row['release_date']] = { 'Horas': round(row['playtime_forever'] / 60)}
+            lista.append(dict)
         
-        return {"Usuario con más horas jugadas para Género X" : user_top,
-                 "Horas jugadas":playtime_total}
+        return  {f"Usuario con más horas jugadas para Género {genero}" : user, "Horas jugadas": lista}
     except TypeError as e:
         return str(e)
 
