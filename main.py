@@ -33,24 +33,24 @@ def mensaje():
 def PlayTimeGenre( genero : str ):
     
     try:
+        func_1 = pd.read_parquet('func_1.parquet')
         # Valido que sea un str
         if not isinstance(genero, str):
             raise ValueError({"Error" :"El tipo de dato debe ser un string."})
         # Utilizo .capitalize() para validar el genero con la primera letra mayúscula
         genero = genero.capitalize()
         # Filtro por el genero
-        aux = aux[aux[genero] == 1]
+        aux = func_1[func_1[genero] == 1]
         # Agrupo por año sumo las horas de juego
         aux = aux.groupby(aux['release_date'])
+        # Sumo las horas de juego
+        aux = aux['playtime_forever'].sum().reset_index()
         # Ordeno de mayor a menor por horas de juego
-        suma = aux['playtime_forever'].sum()
-        # Ordeno de mayor a menor por horas de juego
-        rank = suma.sort_values(ascending=False)
+        rank = aux.sort_values(by='playtime_forever', ascending=False)
         # Seleciono el año del primer puesto
-        top = {}
-        for year,j in rank.items():
-            top[f"Año con más horas jugadas para el Género {genero}"] = year
-            break
+        top = {f"Año con más horas jugadas para el Género {genero}" : int(rank.iloc[0,0])}
+        
+            
         return top
     except ValueError as e:
         return str(e)
@@ -140,7 +140,7 @@ def UsersNotRecommend( anio : int ):
 def sentiment_analysis( anio : int ): 
     func_5 = pd.read_parquet('func_5.parquet')
     # Filtro el df por el año ingresado
-    aux = func_5[func_5['anio'] == anio]
+    aux = func_5[func_5['release_date'] == anio]
     
     return {'Año' : anio,'Positivo: ': aux.positivo.to_list()[0],
             'Neutral: ': aux.neutral.to_list()[0],
@@ -177,7 +177,7 @@ def recommend(id_item : int):
         
         df_combined = pd.concat([model,new_game])
         
-        vectors = cv.fit_transform(df_combined["tags"]).toarray()
+        vectors = cv.fit_transform(df_combined["genres"]).toarray()
         
         similarity=cosine_similarity(vectors)
         
