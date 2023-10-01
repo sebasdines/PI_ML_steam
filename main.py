@@ -35,6 +35,9 @@ def PlayTimeGenre( genero : str ):
     try:
         func_1 = pd.read_parquet('func_1.parquet')
         # Valido que sea un str
+        list_genre = list(func_1.columns[2:])
+        if genero is not list_genre:
+            return {'Error' : 'El dato ingresado no es un genero válido'}
         if not isinstance(genero, str):
             raise ValueError({"Error" :"El tipo de dato debe ser un string."})
         # Utilizo .capitalize() para validar el genero con la primera letra mayúscula
@@ -62,6 +65,10 @@ def PlayTimeGenre( genero : str ):
 @app.get('/UserForGenre/{genero}', tags=['Usuario con mas horas de juego del genero, detalle por año'])
 def UserForGenre( genero : str ):
     try:
+        func_2 = pd.read_parquet('func_2.parquet')
+        list_genre = list(func_2.columns[2:])
+        if genero is not list_genre:
+            return {'Error' : 'El dato ingresado no es un genero válido'}
         # Valido que sea un str
         if not isinstance(genero, str):
             raise TypeError({"Error" :"El tipo de dato debe ser un string."})
@@ -89,6 +96,11 @@ def UserForGenre( genero : str ):
 @app.get('/UsersRecommend/{anio}', tags=['Top 3 de juegos mas recomendados por usuarios, según el año ingresado '])
 def UsersRecommend( anio : int ):
     func_3 = pd.read_parquet('func_3.parquet')
+    aux = func_3[func_3['release_date'] == anio]
+    # Verifica que exista informacion del año solicitado
+    if aux.empty:
+        # Devuelve un mensaje de error
+        return {f"No hay datos para el año {anio}"}
     # Filtro por año
     func_3 = func_3[func_3['release_date'] == anio]
     # Agrupo por juego y sumo sentimientos    
@@ -114,6 +126,11 @@ def UsersRecommend( anio : int ):
 @app.get('/UsersNotRecommend/{anio}', tags=['Top 3 NO recomendados por usuario, según el año ingresado'])
 def UsersNotRecommend( anio : int ):
     func_4 = pd.read_parquet('func_4.parquet')
+    aux = func_4[func_4['release_date'] == anio]
+    # Verifica que exista informacion del año solicitado
+    if aux.empty:
+        # Devuelve un mensaje de error
+        return {f"No hay datos para el año {anio}"}
     # Filtro por año
     func_4 = func_4[func_4['release_date'] == anio]
     # Agrupo por juego y sumo sentimientos    
@@ -144,7 +161,7 @@ def sentiment_analysis( anio : int ):
     # Verifica que exista informacion del año solicitado
     if aux.empty:
         # Devuelve un mensaje de error
-        return {"error": f"No hay datos para el año {anio}"}
+        return {f"No hay datos para el año {anio}"}
     # Agrupo por año y sumo las reseñas
     aux = aux.groupby('release_date').sum()
     
@@ -162,7 +179,7 @@ def recommend(id_item : int):
         model = pd.read_parquet('model.parquet')
         list_games = model['item_id']
         if id_item is not list_games:
-            return {f'No existen recomendaciones pa el id: {id_item}'} 
+            return {f'No existen recomendaciones para el id: {id_item}'} 
         #importamos el modelo ya entrenado
         similarity = joblib.load('model_trained.pkl')
         #buscamos el numero de indice
