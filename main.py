@@ -160,6 +160,9 @@ def recommend(id_item : int):
     try:
         #cargamos el df dentro de la funcion 
         model = pd.read_parquet('model.parquet')
+        list_games = model['item_id']
+        if id_item is not list_games:
+            return {f'No existen recomendaciones pa el id: {id_item}'} 
         #importamos el modelo ya entrenado
         similarity = joblib.load('model_trained.pkl')
         #buscamos el numero de indice
