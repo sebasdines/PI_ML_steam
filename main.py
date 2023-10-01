@@ -33,15 +33,18 @@ def mensaje():
 def PlayTimeGenre( genero : str ):
     
     try:
-        func_1 = pd.read_parquet('func_1.parquet')
-        # Valido que sea un str
-        list_genre = list(func_1.columns[2:])
-        if genero is not list_genre:
-            return {'Error' : 'El dato ingresado no es un genero válido'}
-        if not isinstance(genero, str):
-            raise ValueError({"Error" :"El tipo de dato debe ser un string."})
         # Utilizo .capitalize() para validar el genero con la primera letra mayúscula
         genero = genero.capitalize()
+        # Lamo a func_1
+        func_1 = pd.read_parquet('func_1.parquet')
+        # genero una lista con los generos
+        list_genre = list(func_1.columns[2:])
+        # Validos que se a un genero válido
+        if genero is not list_genre:
+            return {'Error' : 'El dato ingresado no es un genero válido'}
+        # Valido que sea un str
+        if not isinstance(genero, str):
+            raise ValueError({"Error" :"El tipo de dato debe ser un string."})
         # Filtro por el genero
         aux = func_1[func_1[genero] == 1]
         # Agrupo por año sumo las horas de juego
@@ -65,15 +68,18 @@ def PlayTimeGenre( genero : str ):
 @app.get('/UserForGenre/{genero}', tags=['Usuario con mas horas de juego del genero, detalle por año'])
 def UserForGenre( genero : str ):
     try:
-        func_2 = pd.read_parquet('func_2.parquet')
-        list_genre = list(func_2.columns[2:])
-        if genero is not list_genre:
-            return {'Error' : 'El dato ingresado no es un genero válido'}
-        # Valido que sea un str
-        if not isinstance(genero, str):
-            raise TypeError({"Error" :"El tipo de dato debe ser un string."})
         # Utilizo .capitalize() para validar el genero con la primera letra mayúscula
         genero = genero.capitalize()
+        # Lamo a Func_2
+        func_2 = pd.read_parquet('func_2.parquet')
+        # Genero una lista con los generos
+        list_genre = list(func_2.columns[2:])
+        # Compruebo que el genero se a valido
+        if genero is not list_genre:
+            return {'Error' : 'El dato ingresado no es un genero válido'}
+        # Si el genero existe valido que sea un str
+        if not isinstance(genero, str):
+            raise TypeError({"Error" :"El tipo de dato debe ser un string."})
         # Filtro por genero
         aux = func_2[func_2['genero'] == genero]
         # Obtengo el user_id 
