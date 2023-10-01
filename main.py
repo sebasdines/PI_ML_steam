@@ -141,6 +141,12 @@ def sentiment_analysis( anio : int ):
     func_5 = pd.read_parquet('func_5.parquet')
     # Filtro el df por el año ingresado
     aux = func_5[func_5['release_date'] == anio]
+    # Verifica que exista informacion del año solicitado
+    if aux.empty:
+        # Devuelve un mensaje de error
+        return {"error": f"No hay datos para el año {anio}"}
+    # Agrupo por año y sumo las reseñas
+    aux = aux.groupby('release_date').sum()
     
     return {'Año' : anio,'Positivo: ': aux.positivo.to_list()[0],
             'Neutral: ': aux.neutral.to_list()[0],
