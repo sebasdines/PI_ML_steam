@@ -8,7 +8,6 @@ import sklearn.metrics.pairwise
 import sklearn.feature_extraction.text
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import CountVectorizer
-# import pyarrow
 
 app = FastAPI()
 app.title = 'Steam - Consultas y Recomendación'
@@ -22,7 +21,7 @@ func_5 = pd.read_parquet('func_5.parquet')
 model = pd.read_parquet('model.parquet')
 cv = CountVectorizer(max_features=45, stop_words="english")
 
-@app.get('/')
+@app.get('/', tags='Tablero de consultas')
 def mensaje():
     return {"message" : "Bienvenido, ya puede realizar sus consultas"}
 
