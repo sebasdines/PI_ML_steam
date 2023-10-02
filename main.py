@@ -183,9 +183,6 @@ def recommend(id_item : int):
     try:
         #cargamos el df dentro de la funcion 
         model = pd.read_parquet('model.parquet')
-        list_games = model['item_id']
-        if id_item is not list_games:
-            return {f'No existen recomendaciones para el id: {id_item}'} 
         #importamos el modelo ya entrenado
         similarity = joblib.load('model_trained.pkl')
         #buscamos el numero de indice
@@ -193,10 +190,10 @@ def recommend(id_item : int):
         #y lo comparamos dentro del modelo
         distances = similarity[idx]
         #determinamos nuestras similitudes mas grandes y lo guardamos dentro de una lista   
-        jueguito = sorted(list(enumerate(distances)), reverse=True, key= lambda x:x[1])[1:6]
+        game = sorted(list(enumerate(distances)), reverse=True, key= lambda x:x[1])[1:6]
         #guardamos dentro de una lista con este iterador las recomendaciones
         respon = []
-        for i in jueguito:
+        for i in game:
             respon.append(model.iloc[i[0]].title)
         return {"recomendaciones": respon}
     
@@ -217,10 +214,10 @@ def recommend(id_item : int):
         
         distances = similarity[idx]   
         
-        jueguito = sorted(list(enumerate(distances)), reverse=True, key= lambda x:x[1])[1:6]
+        game = sorted(list(enumerate(distances)), reverse=True, key= lambda x:x[1])[1:6]
         
         respon = []
-        for i in jueguito:
+        for i in game:
             respon.append(df_combined.iloc[i[0]].title)
         return {"recomendaciones": respon}
     
