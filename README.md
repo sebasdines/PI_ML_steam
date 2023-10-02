@@ -6,7 +6,7 @@
 # <h1 align=center>**`Sebastian Di Nesta`**</h1>
 
 <p align="center">
-<img src="https://user-images.githubusercontent.com/67664604/217914153-1eb00e25-ac08-4dfa-aaf8-53c09038f082.png"  height=300>
+<img src=src/MLops.png height=500>
 </p>
 
 ¡Bienvenidos a mi primer proyecto individual de la etapa de labs! En esta ocasión, debo hacer un trabajo en el rol de un ***MLOps Engineer***.  
@@ -63,7 +63,7 @@ Ejemplo de retorno: {Negative = 182, Neutral = 120, Positive = 278}
     Ingresando el id de producto, deberíamos recibir una lista con 5 juegos recomendados similares al ingresado.
 <br/>
 
-link a la [API]()
+link a la [API](https://pi-ml-steam-deploy.onrender.com)
 <p align=center><img src=src/API.png><p>
 
 
@@ -83,6 +83,10 @@ link a la [API]()
 + [Diccionario de datos](https://docs.google.com/spreadsheets/d/1-t9HLzLHIGXvliq56UE_gMaWBVTPfrlTf2D9uAtLGrk/edit?usp=drive_link): Diccionario con algunas descripciones de las columnas disponibles en el dataset.
 <br/>
 
+
+## **Herramientas utilizadas**
+
+<p align=left><img src=src/python.png><img src=src/pandas.png heigth=20><img src=src/matplot.png><img src=src/seaborn.png><img src=src/sickit.png><img src=src/fastapi.png><p>
 
 ## **Autor**
 
