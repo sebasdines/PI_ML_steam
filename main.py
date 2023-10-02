@@ -21,7 +21,7 @@ func_5 = pd.read_parquet('func_5.parquet')
 model = pd.read_parquet('model.parquet')
 cv = CountVectorizer(max_features=45, stop_words="english")
 
-@app.get('/', tags='Tablero de consultas')
+@app.get('/', tags=['Tablero de consultas'])
 def mensaje():
     return {"message" : "Bienvenido, ya puede realizar sus consultas"}
 
