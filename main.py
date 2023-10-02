@@ -40,7 +40,7 @@ def PlayTimeGenre( genero : str ):
         # genero una lista con los generos
         list_genre = list(func_1.columns[2:])
         # Validos que se a un genero válido
-        if genero is not list_genre:
+        if genero is list_genre:
             return {'Error' : 'El dato ingresado no es un genero válido'}
         # Valido que sea un str
         if not isinstance(genero, str):
@@ -75,7 +75,7 @@ def UserForGenre( genero : str ):
         # Genero una lista con los generos
         list_genre = list(func_2.columns[2:])
         # Compruebo que el genero se a valido
-        if genero is not list_genre:
+        if genero is list_genre:
             return {'Error' : 'El dato ingresado no es un genero válido'}
         # Si el genero existe valido que sea un str
         if not isinstance(genero, str):
