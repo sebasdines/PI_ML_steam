@@ -6,7 +6,7 @@
 # <h1 align=center>**`Sebastian Di Nesta`**</h1>
 
 <p align="center">
-<img src=src/MLops.png height=500>
+<img src=src/MLops.png height=450>
 </p>
 
 ¡Bienvenidos a mi primer proyecto individual de la etapa de labs! En esta ocasión, debo hacer un trabajo en el rol de un ***MLOps Engineer***.  
@@ -42,7 +42,7 @@ Ejemplo de retorno: {"Año con más horas jugadas para Género X" : 2013}
     Debe devolver el usuario que acumula más horas jugadas para el género dado y una lista de la acumulación de horas jugadas por año.
 
 Ejemplo de retorno: {"Usuario con más horas jugadas para Género X" : us213ndjss09sdf,
-			     "Horas jugadas":[{Año: 2013, Horas: 203}, {Año: 2012, Horas: 100}, {Año: 2011, Horas: 23}]}
+			     "Horas jugadas":[{Año: 2013, Horas: 203}, {Año: 2012, Horas: 45}, {Año: 2011, Horas: 23}]}
 
 + def **UsersRecommend( *`año` : int* )**:
    Devuelve el top 3 de juegos MÁS recomendados por usuarios para el año dado. (reviews.recommend = True y comentarios positivos/neutrales)
@@ -86,7 +86,13 @@ link a la [API](https://pi-ml-steam-deploy.onrender.com)
 
 ## **Herramientas utilizadas**
 
-<p align=left><img src=src/python.png><img src=src/pandas.png heigth=20><img src=src/matplot.png><img src=src/seaborn.png><img src=src/sickit.png><img src=src/fastapi.png><p>
+<p align=left><img src=src/python.png width="45" height="45">
+              <img src=src/pandas.png width="120" height="45">
+              <img src=src/numpy.png width="140" height="45">
+              <img src=src/matplot.png width="220" height="45">
+              <img src=src/seaborn.png width="180" height="45">
+              <img src=src/scikit.png width="100" height="45">
+              <img src=src/fastapi.png width="240" height="45"><p>
 
 ## **Autor**
 
