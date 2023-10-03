@@ -98,5 +98,6 @@ link a la [API](https://pi-ml-steam-deploy.onrender.com)
 
  * Sebastian Di Nesta
  * Mail: dinestasebas@gmail.com
- * LinkedIn: https://www.linkedin.com/in/sebasti%C3%A1n-di-nesta-3241b1156/ 
+ * LinkedIn: https://www.linkedin.com/in/sebasti%C3%A1n-di-nesta-3241b1156/
+ * Github: [link](https://github.com/sebasdines/PI_ML_steam/tree/main) al repositorio
 <br/>
